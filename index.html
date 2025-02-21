@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
     <title>Unity Web Player | Dinamita</title>
 
     <style>
@@ -20,19 +20,20 @@
         }
 
         #game-container {
+            width: 100vw;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100vw;
-            height: 100vh;
             position: relative;
         }
 
         #unity-canvas {
+            position: absolute;
             width: 100%;
-            height: auto;
-            max-width: 1080px;
-            max-height: 1920px;
+            height: 100%;
+            max-width: 100vw;
+            max-height: 100vh;
             aspect-ratio: 1080 / 1920;
         }
     </style>
@@ -58,19 +59,17 @@
 
         function resizeCanvas() {
             var canvas = document.querySelector("#unity-canvas");
-            var container = document.querySelector("#game-container");
-
             let screenRatio = window.innerWidth / window.innerHeight;
             let gameRatio = 1080 / 1920;
 
             if (screenRatio > gameRatio) {
-                // Prioriza el ancho si la pantalla es más pequeña
-                canvas.style.width = "100%";
-                canvas.style.height = "auto";
-            } else {
-                // Centra el canvas en pantallas grandes
+                // La pantalla es más ancha, se ajusta la altura y el ancho automático
                 canvas.style.width = "auto";
                 canvas.style.height = "100%";
+            } else {
+                // La pantalla es más alta, se ajusta el ancho y la altura automática
+                canvas.style.width = "100%";
+                canvas.style.height = "auto";
             }
         }
 
