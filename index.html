@@ -2,7 +2,6 @@
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
     <title>Unity Web Player | Dinamita</title>
 
@@ -15,7 +14,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #231F20; /* Color de fondo */
             overflow: hidden;
         }
 
@@ -26,7 +24,8 @@
             width: 100vw;
             height: 100vh;
             position: relative;
-            background: #231F20; /* Color de fondo para márgenes */
+            background: url('background.png') no-repeat center center;
+            background-size: cover;
         }
 
         #unity-canvas {
@@ -58,19 +57,13 @@
 
         function resizeCanvas() {
             var canvas = document.querySelector("#unity-canvas");
-            var container = document.querySelector("#game-container");
-
-            let screenWidth = window.innerWidth;
-            let screenHeight = window.innerHeight;
-            let screenRatio = screenWidth / screenHeight;
+            let screenRatio = window.innerWidth / window.innerHeight;
             let gameRatio = 1080 / 1920;
 
             if (screenRatio > gameRatio) {
-                // La pantalla es más ancha que el juego → Ajustamos altura y dejamos ancho automático
                 canvas.style.width = "auto";
                 canvas.style.height = "100%";
             } else {
-                // La pantalla es más alta que el juego → Ajustamos ancho y dejamos altura automática
                 canvas.style.width = "100%";
                 canvas.style.height = "auto";
             }
