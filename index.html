@@ -15,23 +15,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #231F20;
+            background: #231F20; /* Color de fondo */
             overflow: hidden;
         }
 
         #game-container {
-            width: 100vw;
-            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100vw;
+            height: 100vh;
             position: relative;
+            background: #231F20; /* Color de fondo para márgenes */
         }
 
         #unity-canvas {
             position: absolute;
-            width: 100%;
-            height: 100%;
             max-width: 100vw;
             max-height: 100vh;
             aspect-ratio: 1080 / 1920;
@@ -59,15 +58,19 @@
 
         function resizeCanvas() {
             var canvas = document.querySelector("#unity-canvas");
-            let screenRatio = window.innerWidth / window.innerHeight;
+            var container = document.querySelector("#game-container");
+
+            let screenWidth = window.innerWidth;
+            let screenHeight = window.innerHeight;
+            let screenRatio = screenWidth / screenHeight;
             let gameRatio = 1080 / 1920;
 
             if (screenRatio > gameRatio) {
-                // La pantalla es más ancha, se ajusta la altura y el ancho automático
+                // La pantalla es más ancha que el juego → Ajustamos altura y dejamos ancho automático
                 canvas.style.width = "auto";
                 canvas.style.height = "100%";
             } else {
-                // La pantalla es más alta, se ajusta el ancho y la altura automática
+                // La pantalla es más alta que el juego → Ajustamos ancho y dejamos altura automática
                 canvas.style.width = "100%";
                 canvas.style.height = "auto";
             }
