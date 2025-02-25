@@ -54,14 +54,13 @@
             text-align: center;
         }
 
-        /* Imagen giratoria */
+        /* Imagen giratoria más grande */
         #loading-spinner {
-            width: 80px;
-            height: 80px;
+            width: 150px; /* Aumentamos el tamaño */
+            height: 150px;
             background: url('spinner.png') no-repeat center center;
             background-size: contain;
             animation: spin 1.5s linear infinite;
-            margin-bottom: 20px;
         }
 
         @keyframes spin {
@@ -71,26 +70,8 @@
 
         /* Texto de carga */
         #loading-text {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        /* Contenedor de la barra de carga */
-        #loading-bar-container {
-            width: 300px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid white;
-        }
-
-        /* Barra de carga */
-        #loading-bar {
-            width: 0%;
-            height: 100%;
-            background: #ffffff; /* Color verde */
-            transition: width 0.1s ease-in-out;
+            font-size: 24px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -103,9 +84,6 @@
         <div id="loading-screen">
             <div id="loading-spinner"></div>
             <div id="loading-text">Cargando...</div>
-            <div id="loading-bar-container">
-                <div id="loading-bar"></div>
-            </div>
         </div>
     </div>
 
@@ -113,12 +91,6 @@
     <script>
         let canvas = document.querySelector("#unity-canvas");
         let loadingScreen = document.querySelector("#loading-screen");
-        let loadingBar = document.querySelector("#loading-bar");
-
-        function updateLoadingBar(progress) {
-            let percentage = Math.round(progress * 100);
-            loadingBar.style.width = percentage + "%";
-        }
 
         createUnityInstance(canvas, {
             arguments: [],
@@ -128,15 +100,12 @@
             streamingAssetsUrl: "StreamingAssets",
             companyName: "ByAds",
             productName: "Dinamita",
-            productVersion: "1.1",
-            onProgress: function (instance, progress) {
-                requestAnimationFrame(() => updateLoadingBar(progress)); // Asegura que la barra se actualiza correctamente
-            }
+            productVersion: "1.1"
         }).then(() => {
             setTimeout(() => {
                 loadingScreen.style.display = "none"; // Oculta la pantalla de carga suavemente
                 canvas.style.display = "block"; // Muestra el juego
-            }, 500); // Agregamos un pequeño retraso para asegurar la transición suave
+            }, 500); // Pequeño retraso para una mejor transición
         });
 
         function resizeCanvas() {
