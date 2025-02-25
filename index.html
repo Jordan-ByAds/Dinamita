@@ -89,8 +89,8 @@
         #loading-bar {
             width: 0%;
             height: 100%;
-            background: #00ff00; /* Color verde */
-            transition: width 0.2s ease;
+            background: #ffffff; /* Color verde */
+            transition: width 0.1s ease-in-out;
         }
     </style>
 </head>
@@ -115,6 +115,11 @@
         let loadingScreen = document.querySelector("#loading-screen");
         let loadingBar = document.querySelector("#loading-bar");
 
+        function updateLoadingBar(progress) {
+            let percentage = Math.round(progress * 100);
+            loadingBar.style.width = percentage + "%";
+        }
+
         createUnityInstance(canvas, {
             arguments: [],
             dataUrl: "Build/1.5.data",
@@ -125,12 +130,13 @@
             productName: "Dinamita",
             productVersion: "1.1",
             onProgress: function (instance, progress) {
-                let percentage = Math.round(progress * 100);
-                loadingBar.style.width = percentage + "%"; // Actualiza la barra de carga
+                requestAnimationFrame(() => updateLoadingBar(progress)); // Asegura que la barra se actualiza correctamente
             }
         }).then(() => {
-            loadingScreen.style.display = "none"; // Oculta pantalla de carga
-            canvas.style.display = "block"; // Muestra el juego
+            setTimeout(() => {
+                loadingScreen.style.display = "none"; // Oculta la pantalla de carga suavemente
+                canvas.style.display = "block"; // Muestra el juego
+            }, 500); // Agregamos un pequeño retraso para asegurar la transición suave
         });
 
         function resizeCanvas() {
