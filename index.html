@@ -48,7 +48,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.8);
+            background: transparent; /* Sin opacidad para ver el fondo */
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
@@ -61,6 +61,7 @@
             background: url('spinner.png') no-repeat center center;
             background-size: contain;
             animation: spin 1.5s linear infinite;
+            margin-bottom: 20px;
         }
 
         @keyframes spin {
@@ -70,15 +71,26 @@
 
         /* Texto de carga */
         #loading-text {
-            margin-top: 15px;
             font-size: 20px;
+            margin-bottom: 15px;
         }
 
-        /* Porcentaje */
-        #loading-percentage {
-            margin-top: 5px;
-            font-size: 16px;
-            font-weight: bold;
+        /* Contenedor de la barra de carga */
+        #loading-bar-container {
+            width: 300px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid white;
+        }
+
+        /* Barra de carga */
+        #loading-bar {
+            width: 0%;
+            height: 100%;
+            background: #00ff00; /* Color verde */
+            transition: width 0.2s ease;
         }
     </style>
 </head>
@@ -91,7 +103,9 @@
         <div id="loading-screen">
             <div id="loading-spinner"></div>
             <div id="loading-text">Cargando...</div>
-            <div id="loading-percentage">0%</div>
+            <div id="loading-bar-container">
+                <div id="loading-bar"></div>
+            </div>
         </div>
     </div>
 
@@ -99,7 +113,7 @@
     <script>
         let canvas = document.querySelector("#unity-canvas");
         let loadingScreen = document.querySelector("#loading-screen");
-        let loadingPercentage = document.querySelector("#loading-percentage");
+        let loadingBar = document.querySelector("#loading-bar");
 
         createUnityInstance(canvas, {
             arguments: [],
@@ -112,7 +126,7 @@
             productVersion: "1.1",
             onProgress: function (instance, progress) {
                 let percentage = Math.round(progress * 100);
-                loadingPercentage.innerText = percentage + "%"; // Actualiza el porcentaje
+                loadingBar.style.width = percentage + "%"; // Actualiza la barra de carga
             }
         }).then(() => {
             loadingScreen.style.display = "none"; // Oculta pantalla de carga
