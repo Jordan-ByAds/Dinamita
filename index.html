@@ -24,7 +24,7 @@
             align-items: center;
             justify-content: center;
             width: 100vw;
-            height: 100vh;
+            height: 100vh; /* Se ajustará con JS */
             position: relative;
             background: url('background.png') no-repeat center center;
             background-size: cover;
@@ -56,7 +56,7 @@
 
         /* Imagen giratoria más grande */
         #loading-spinner {
-            width: 150px; /* Aumentamos el tamaño */
+            width: 150px;
             height: 150px;
             background: url('spinner.png') no-repeat center center;
             background-size: contain;
@@ -91,6 +91,12 @@
     <script>
         let canvas = document.querySelector("#unity-canvas");
         let loadingScreen = document.querySelector("#loading-screen");
+        let gameContainer = document.querySelector("#game-container");
+
+        function adjustHeightForiOS() {
+            let vh = window.innerHeight; // Altura real del viewport en iOS
+            gameContainer.style.height = `${vh}px`; // Ajusta la altura real
+        }
 
         createUnityInstance(canvas, {
             arguments: [],
@@ -105,10 +111,12 @@
             setTimeout(() => {
                 loadingScreen.style.display = "none"; // Oculta la pantalla de carga suavemente
                 canvas.style.display = "block"; // Muestra el juego
-            }, 500); // Pequeño retraso para una mejor transición
+                adjustHeightForiOS(); // Ajustar altura después de cargar
+            }, 500);
         });
 
         function resizeCanvas() {
+            adjustHeightForiOS(); // Ajusta la altura en cada redimensionamiento
             let screenRatio = window.innerWidth / window.innerHeight;
             let gameRatio = 1080 / 1920;
 
@@ -121,6 +129,7 @@
             }
         }
 
+        // Ajustar en carga y cuando cambia el tamaño de la ventana
         window.addEventListener("resize", resizeCanvas);
         window.addEventListener("load", resizeCanvas);
     </script>
